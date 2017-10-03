@@ -1,0 +1,34 @@
+#include <Servo.h> //including servo library
+Servo myservo; //creating servo object
+
+boolean forward = false;
+int angle = 90;
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(5); //assign motor to pin 11
+  pinMode(9, INPUT); //assign switch as input
+}
+
+void loop() {
+  int switchStatus = digitalRead(9); //read switch 0 or 1
+
+  Serial.println(switchStatus); //check switch is responding
+
+  if (switchStatus == 1) {
+    if (angle <= 0) {
+      forward = true;
+    }
+    if (angle >= 179) {
+      forward = false;
+    }
+    if (forward == false) {
+      angle -= 1;
+    }
+    if (forward == true) {
+      angle += 1;
+    }
+
+    myservo.write(angle); //move motor back and forth depending on angle value
+  }
+}
